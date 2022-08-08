@@ -89,7 +89,8 @@ class Musinsa():
 
         url_df = pd.DataFrame({'title': titles_list, 'url': urls_list})
         # print(url_df)
-        Saving.save_csv(url_df)
+        df_save = Saving()
+        df_save.save_csv(url_df)
         print("link_크롤링 완료 및 저장")
         # self.driver.close()
 
@@ -192,9 +193,9 @@ class Saving():
         df = result_df
         # 칼럼 길이가 3개 미만일시에 url 수집으로 판단
         if len(df.columns) <= 2:
-            df.to_csv(f'./files/{self.link_csv_name}.csv', encoding='utf-8')
+            df.to_csv(f'files/{self.link_csv_name}.csv', encoding='utf-8')
         else:
-            df.to_csv(f'./files/{self.finish_csv_name}.csv', encoding='utf-8')
+            df.to_csv(f'files/{self.finish_csv_name}.csv', encoding='utf-8')
         return df
 
     def csv_merge(self, df, result):
@@ -212,10 +213,10 @@ class main:
     print("무신사 크롤링 시작")
     start_time = time.time()
     today = date.today().isoformat()
-    url_file = f'./files/musinsa_link_{today}.csv'
+    url_file = f'files/musinsa_link_{today}.csv'
     if os.path.isfile(url_file):
         print('url 완료 파일 존재')
-        first_df = pd.read_csv(f'./files/musinsa_link_{today}.csv', index_col=0)
+        first_df = pd.read_csv(f'files/musinsa_link_{today}.csv', index_col=0)
     else:
         print('url 수집 시작')
         first_df = musinsa.link_crawling()  # url 수집 파일이 없을시
